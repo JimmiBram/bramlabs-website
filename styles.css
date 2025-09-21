@@ -1,0 +1,325 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Exo 2', sans-serif;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 35%, #16213e 100%);
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem 0;
+}
+
+.logo-container {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.logo {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.02);
+}
+
+.company-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #78dbff, #ff77c6, #78dbff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 4s ease-in-out infinite;
+    text-shadow: 0 0 20px rgba(120, 219, 255, 0.3);
+}
+
+@keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.company-type {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+    margin-left: 0.3rem;
+    vertical-align: top;
+}
+
+.intro-text {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 1000px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ventures-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.venture-tile {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(120, 219, 255, 0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.venture-tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(120, 219, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.venture-tile:hover::before {
+    left: 100%;
+}
+
+.venture-tile:hover {
+    transform: translateY(-8px);
+    border-color: rgba(120, 219, 255, 0.5);
+    box-shadow: 
+        0 10px 30px rgba(120, 219, 255, 0.2),
+        0 0 50px rgba(120, 219, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.tile-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1.5rem;
+    color: #78dbff;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.venture-tile:hover .tile-icon {
+    color: #ff77c6;
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.tile-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.tile-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: #ffffff;
+}
+
+.tile-description {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.tile-arrow {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    color: #78dbff;
+    transition: all 0.3s ease;
+}
+
+.venture-tile:hover .tile-arrow {
+    transform: translateX(5px);
+    color: #ff77c6;
+}
+
+.coming-soon {
+    border: 2px dashed rgba(120, 219, 255, 0.4) !important;
+    background: rgba(255, 255, 255, 0.01) !important;
+    cursor: default;
+    pointer-events: none;
+}
+
+.empty-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: 300;
+}
+
+.coming-soon:hover {
+    transform: none;
+    border-color: rgba(120, 219, 255, 0.4);
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.contact-section {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 3rem 0;
+    border-top: 1px solid rgba(120, 219, 255, 0.1);
+}
+
+.contact-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.contact-email {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 1.2rem;
+    color: #78dbff;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .company-title {
+        font-size: 2.5rem;
+    }
+    
+    .logo {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .ventures-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .venture-tile {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .company-title {
+        font-size: 2rem;
+    }
+    
+    .intro-text {
+        font-size: 1rem;
+    }
+    
+    .logo {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+#spaceship {
+    position: fixed;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0.7;
+    transition: transform 0.1s ease-out, opacity 0.5s ease-out;
+}
+
+.explosion {
+    position: relative;
+    width: 40px;
+    height: 24px;
+}
+
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #ff77c6;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    animation: explode 0.3s ease-out forwards;
+    box-shadow: 0 0 4px #ff77c6;
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) 
+                   translateX(calc(cos(var(--angle)) * 20px))
+                   translateY(calc(sin(var(--angle)) * 20px))
+                   scale(0.3);
+        opacity: 0;
+    }
+}
