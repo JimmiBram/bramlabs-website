@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bram Labs - Making a Tiny Bump in the Universe</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="css/styles.css?v=4">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="spaceship.js" defer></script>
+    <script src="js/spaceship.js" defer></script>
+    <script src="js/snake-nav.js" defer></script>
     <script defer>
+        const ventureKeys = ['aiklar', 'skolemate', 'tonetone', 'dragonflux'];
+        let currentVentureKey = null;
+
         const ventureData = {
             dragonflux: {
                 title: 'DragonFlux Studio',
-                screenshot: 'dragonflux-screenshot.png',
+                screenshot: 'images/dragonflux-screenshot.png',
                 text: 'Structure your ideas. Amplify your creativity. The all-in-one workspace for AI artists, prompt engineers, and creative professionals. Manage prompts, generate media, and iterate — all from one powerful desktop app.',
                 points: [
                     { type: 'gain', text: 'All-in-one workspace for AI art and prompt engineering' },
@@ -26,7 +30,7 @@
             },
             aiklar: {
                 title: 'AiKlar',
-                screenshot: 'aiklar-screenshot.png',
+                screenshot: 'images/aiklar-screenshot.png',
                 text: 'AI solutions that elevate people in work and learning. AiKlar\'s goal is to deliver AI that doesn\'t replace humans — but gives them new opportunities, knowledge, and tools to succeed. Always on Danish or EU infrastructure and technology.',
                 points: [
                     { type: 'gain', text: 'Human-first AI — designed to empower, not replace' },
@@ -40,7 +44,7 @@
             },
             skolemate: {
                 title: 'SkoleMate',
-                screenshot: 'skolemate-screenshot.png',
+                screenshot: 'images/skolemate-screenshot.png',
                 text: 'The entire school\'s AI assistant. SkoleMate partners with schools that want to support individualized and engaging learning with AI — giving teachers, students, and administrators a shared platform built for education.',
                 points: [
                     { type: 'gain', text: 'AI-powered tools tailored for the classroom — not repurposed consumer tech' },
@@ -54,16 +58,9 @@
             },
             tonetone: {
                 title: 'ToneTone',
-                screenshot: 'tonetone-screenshot.png',
-                text: 'ToneTone reads your website and creates weekly content in your voice — so you can focus on your actual work.',
-                points: [
-                    { type: 'pain', text: 'Content creation eats hours you\'d rather spend on your actual work' },
-                    { type: 'pain', text: 'AI tools you tried still didn\'t sound like you' },
-                    { type: 'pain', text: 'You\'re falling behind because posting consistently feels impossible' },
-                    { type: 'gain', text: 'You want content that shows up ready to post — not more work on your plate' },
-                    { type: 'gain', text: 'You want content that sounds like you wrote it on a good day' },
-                    { type: 'gain', text: 'You want to focus on your business instead of becoming a content creator' },
-                ],
+                screenshot: 'images/tonetone-screenshot.png',
+                text: 'ToneTone reads your website and creates weekly content in your voice — so you can focus on your actual work. Most people struggle to post consistently because content creation takes hours, and AI tools never quite sound like them. ToneTone solves that — content shows up ready to post, written like you on a good day, so you can focus on running your business instead of becoming a content creator.',
+                points: [],
                 role: 'Co-Founding, Architecture, Development, AI Zoo keeping, Product Development and much more.',
                 founded: 'January 2026',
                 link: 'https://tonetone.ai',
@@ -74,6 +71,7 @@
         function openVentureModal(key) {
             const data = ventureData[key];
             if (!data) return;
+            currentVentureKey = key;
             document.getElementById('modalScreenshot').src = data.screenshot;
             document.getElementById('modalScreenshot').alt = data.title + ' Screenshot';
             document.getElementById('modalTitle').textContent = data.title;
@@ -102,8 +100,20 @@
         }
 
         document.addEventListener('keydown', function(e) {
+            const modal = document.getElementById('ventureModal');
             if (e.key === 'Escape') {
-                document.getElementById('ventureModal').classList.remove('active');
+                modal.classList.remove('active');
+                currentVentureKey = null;
+                return;
+            }
+            if (!modal.classList.contains('active') || !currentVentureKey) return;
+            const idx = ventureKeys.indexOf(currentVentureKey);
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                openVentureModal(ventureKeys[(idx + 1) % ventureKeys.length]);
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                openVentureModal(ventureKeys[(idx - 1 + ventureKeys.length) % ventureKeys.length]);
             }
         });
     </script>
@@ -112,7 +122,7 @@
     <div class="container">
         <header class="header">
             <div class="logo-container">
-                <img src="logo.png" alt="Bram Labs Logo" class="logo">
+                <a href="index.html"><img src="images/logo.png" alt="Bram Labs Logo" class="logo"></a>
             </div>
             <div class="header-text">
                 <h1 class="company-title">Bram Labs <span class="company-type">ApS</span></h1>
@@ -120,13 +130,18 @@
                     Building prototypes that turn into real solutions and companies. What starts as experimental tech in our lab often ends up solving actual problems for real people. When a prototype proves its worth by making someone's work easier or more effective, it graduates from experiment to product.
                 </p>
             </div>
+            <nav class="site-nav">
+                <a href="index.html" class="nav-link active">Ventures</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
         </header>
 
         <main class="main-content">
             <div class="ventures-grid">
                 <div class="venture-tile has-screenshot" onclick="openVentureModal('aiklar')">
                     <div class="tile-screenshot">
-                        <img src="aiklar-screenshot.png" alt="AiKlar Screenshot">
+                        <img src="images/aiklar-screenshot.png" alt="AiKlar Screenshot">
                     </div>
                     <h3 class="tile-title">AiKlar</h3>
                     <p class="tile-description">Human to AI interface multi-tenant platform</p>
@@ -135,7 +150,7 @@
 
                 <div class="venture-tile has-screenshot" onclick="openVentureModal('skolemate')">
                     <div class="tile-screenshot">
-                        <img src="skolemate-screenshot.png" alt="SkoleMate Screenshot">
+                        <img src="images/skolemate-screenshot.png" alt="SkoleMate Screenshot">
                     </div>
                     <h3 class="tile-title">SkoleMate</h3>
                     <p class="tile-description">School-wide AI platform</p>
@@ -144,7 +159,7 @@
 
                 <div class="venture-tile has-screenshot" onclick="openVentureModal('tonetone')">
                     <div class="tile-screenshot">
-                        <img src="tonetone-screenshot.png" alt="ToneTone Screenshot">
+                        <img src="images/tonetone-screenshot.png" alt="ToneTone Screenshot">
                     </div>
                     <h3 class="tile-title">ToneTone</h3>
                     <p class="tile-description">Weekly content in your voice — powered by AI</p>
@@ -153,7 +168,7 @@
 
                 <div class="venture-tile has-screenshot" onclick="openVentureModal('dragonflux')">
                     <div class="tile-screenshot">
-                        <img src="dragonflux-screenshot.png" alt="DragonFlux Studio Screenshot">
+                        <img src="images/dragonflux-screenshot.png" alt="DragonFlux Studio Screenshot">
                     </div>
                     <h3 class="tile-title">DragonFlux</h3>
                     <p class="tile-description">All-in-one workspace for AI artists and prompt engineers</p>
@@ -169,13 +184,6 @@
                 </div>
             </div>
         </main>
-
-        <section class="contact-section">
-            <h2 class="contact-title">Get in Touch</h2>
-            <a class="contact-email" id="contactEmail" href="#" onclick="this.href='mai'+'lto:'+'hi'+'@'+'bramlabs'+'.io'">
-                <span>hi</span><span>@</span><span>bramlabs.io</span>
-            </a>
-        </section>
     </div>
     
     <!-- Venture Modal -->
