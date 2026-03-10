@@ -5,8 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bram Labs - Making a Tiny Bump in the Universe</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <script src="spaceship.js" defer></script>
+    <script defer>
+        const ventureData = {
+            dragonflux: {
+                title: 'DragonFlux Studio',
+                screenshot: 'dragonflux-screenshot.png',
+                text: 'Structure your ideas. Amplify your creativity. The all-in-one workspace for AI artists, prompt engineers, and creative professionals. Manage prompts, generate media, and iterate — all from one powerful desktop app.',
+                points: [
+                    { type: 'gain', text: 'All-in-one workspace for AI art and prompt engineering' },
+                    { type: 'gain', text: 'Manage prompts, generate media, and iterate in one place' },
+                    { type: 'gain', text: 'Built as a powerful desktop app for creative professionals' },
+                ],
+                role: 'Co-Founding, Funds, Architecture, Development, AI Zoo keeping, Product Development and much more.',
+                founded: 'January 2026',
+                link: 'https://dragonflux.ai',
+                linkName: 'DragonFlux.ai',
+            },
+            aiklar: {
+                title: 'AiKlar',
+                screenshot: 'aiklar-screenshot.png',
+                text: 'AI solutions that elevate people in work and learning. AiKlar\'s goal is to deliver AI that doesn\'t replace humans — but gives them new opportunities, knowledge, and tools to succeed. Always on Danish or EU infrastructure and technology.',
+                points: [
+                    { type: 'gain', text: 'Human-first AI — designed to empower, not replace' },
+                    { type: 'gain', text: 'Multi-tenant platform connecting humans and AI seamlessly' },
+                    { type: 'gain', text: 'Built on Danish and EU infrastructure for data sovereignty' },
+                ],
+                role: 'Co-Founding, Funds, Architecture, Development, AI Zoo keeping, Product Development and much more.',
+                founded: 'March 2025',
+                link: 'https://aiklar.dk',
+                linkName: 'AiKlar.dk',
+            },
+            skolemate: {
+                title: 'SkoleMate',
+                screenshot: 'skolemate-screenshot.png',
+                text: 'The entire school\'s AI assistant. SkoleMate partners with schools that want to support individualized and engaging learning with AI — giving teachers, students, and administrators a shared platform built for education.',
+                points: [
+                    { type: 'gain', text: 'AI-powered tools tailored for the classroom — not repurposed consumer tech' },
+                    { type: 'gain', text: 'Supports individualized learning at scale across the entire school' },
+                    { type: 'gain', text: 'Built for teachers, students, and administrators alike' },
+                ],
+                role: 'Co-Founding, Funds, Architecture, Development, AI Zoo keeping, Product Development and much more.',
+                founded: 'March 2025',
+                link: 'https://skolemate.dk',
+                linkName: 'SkoleMate.dk',
+            },
+            tonetone: {
+                title: 'ToneTone',
+                screenshot: 'tonetone-screenshot.png',
+                text: 'ToneTone reads your website and creates weekly content in your voice — so you can focus on your actual work.',
+                points: [
+                    { type: 'pain', text: 'Content creation eats hours you\'d rather spend on your actual work' },
+                    { type: 'pain', text: 'AI tools you tried still didn\'t sound like you' },
+                    { type: 'pain', text: 'You\'re falling behind because posting consistently feels impossible' },
+                    { type: 'gain', text: 'You want content that shows up ready to post — not more work on your plate' },
+                    { type: 'gain', text: 'You want content that sounds like you wrote it on a good day' },
+                    { type: 'gain', text: 'You want to focus on your business instead of becoming a content creator' },
+                ],
+                role: 'Co-Founding, Architecture, Development, AI Zoo keeping, Product Development and much more.',
+                founded: 'January 2026',
+                link: 'https://tonetone.ai',
+                linkName: 'ToneTone.ai',
+            }
+        };
+
+        function openVentureModal(key) {
+            const data = ventureData[key];
+            if (!data) return;
+            document.getElementById('modalScreenshot').src = data.screenshot;
+            document.getElementById('modalScreenshot').alt = data.title + ' Screenshot';
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalText').textContent = data.text;
+            const pointsEl = document.getElementById('modalPoints');
+            pointsEl.innerHTML = data.points.map(p =>
+                `<div class="modal-point ${p.type}"><span class="point-icon">${p.type === 'pain' ? '✕' : '✓'}</span> ${p.text}</div>`
+            ).join('');
+            const roleEl = document.getElementById('modalRole');
+            if (data.role) {
+                roleEl.style.display = '';
+                roleEl.innerHTML = '<strong>BramLabs Role:</strong> ' + data.role
+                    + (data.founded ? '<br><strong>Founded:</strong> ' + data.founded : '');
+            } else {
+                roleEl.style.display = 'none';
+            }
+            document.getElementById('modalLink').href = data.link;
+            document.getElementById('modalLinkName').textContent = data.linkName;
+            document.getElementById('ventureModal').classList.add('active');
+        }
+
+        function closeVentureModal(event, force) {
+            if (force || event.target === document.getElementById('ventureModal')) {
+                document.getElementById('ventureModal').classList.remove('active');
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('ventureModal').classList.remove('active');
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -14,42 +113,50 @@
             <div class="logo-container">
                 <img src="logo.png" alt="Bram Labs Logo" class="logo">
             </div>
-            <h1 class="company-title">Bram Labs <span class="company-type">ApS</span></h1>
-            <p class="intro-text">
-                Building prototypes that turn into real solutions. What starts as experimental tech in our lab often ends up solving actual problems for real people. When a prototype proves its worth by making someone's work easier or more effective, it graduates from experiment to product.
-            </p>
+            <div class="header-text">
+                <h1 class="company-title">Bram Labs <span class="company-type">ApS</span></h1>
+                <p class="intro-text">
+                    Building prototypes that turn into real solutions and companies. What starts as experimental tech in our lab often ends up solving actual problems for real people. When a prototype proves its worth by making someone's work easier or more effective, it graduates from experiment to product.
+                </p>
+            </div>
         </header>
 
         <main class="main-content">
             <div class="ventures-grid">
-                <a href="https://aiklar.dk" class="venture-tile" target="_blank" rel="noopener noreferrer">
-                    <div class="tile-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2M21 9V7L15 1H5C3.89 1 3 1.89 3 3V19C3 20.11 3.89 21 5 21H11V19H5V3H13V9H21M19 21V19H17V21H19M15 21V19H13V21H15M21 17V15H19V17H21M17 17V15H15V17H17Z"/>
-                        </svg>
+                <div class="venture-tile has-screenshot" onclick="openVentureModal('aiklar')">
+                    <div class="tile-screenshot">
+                        <img src="aiklar-screenshot.png" alt="AiKlar Screenshot">
                     </div>
                     <h3 class="tile-title">AiKlar</h3>
                     <p class="tile-description">Human to AI interface multi-tenant platform</p>
                     <div class="tile-arrow">→</div>
-                </a>
+                </div>
 
-                <a href="https://skolemate.dk" class="venture-tile" target="_blank" rel="noopener noreferrer">
-                    <div class="tile-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"/>
-                        </svg>
+                <div class="venture-tile has-screenshot" onclick="openVentureModal('skolemate')">
+                    <div class="tile-screenshot">
+                        <img src="skolemate-screenshot.png" alt="SkoleMate Screenshot">
                     </div>
                     <h3 class="tile-title">SkoleMate</h3>
                     <p class="tile-description">School-wide AI platform</p>
                     <div class="tile-arrow">→</div>
-                </a>
-
-                <div class="venture-tile coming-soon">
-                    <div class="empty-placeholder">...</div>
                 </div>
 
-                <div class="venture-tile coming-soon">
-                    <div class="empty-placeholder">...</div>
+                <div class="venture-tile has-screenshot" onclick="openVentureModal('tonetone')">
+                    <div class="tile-screenshot">
+                        <img src="tonetone-screenshot.png" alt="ToneTone Screenshot">
+                    </div>
+                    <h3 class="tile-title">ToneTone</h3>
+                    <p class="tile-description">Weekly content in your voice — powered by AI</p>
+                    <div class="tile-arrow">→</div>
+                </div>
+
+                <div class="venture-tile has-screenshot" onclick="openVentureModal('dragonflux')">
+                    <div class="tile-screenshot">
+                        <img src="dragonflux-screenshot.png" alt="DragonFlux Studio Screenshot">
+                    </div>
+                    <h3 class="tile-title">DragonFlux</h3>
+                    <p class="tile-description">All-in-one workspace for AI artists and prompt engineers</p>
+                    <div class="tile-arrow">→</div>
                 </div>
 
                 <div class="venture-tile coming-soon">
@@ -64,10 +171,33 @@
 
         <section class="contact-section">
             <h2 class="contact-title">Get in Touch</h2>
-            <p class="contact-email">hi(AT)bramlabs.io</p>
+            <a class="contact-email" id="contactEmail" href="#" onclick="this.href='mai'+'lto:'+'hi'+'@'+'bramlabs'+'.io'">
+                <span>hi</span><span>@</span><span>bramlabs.io</span>
+            </a>
         </section>
     </div>
     
+    <!-- Venture Modal -->
+    <div class="venture-modal-overlay" id="ventureModal" onclick="closeVentureModal(event)">
+        <div class="venture-modal">
+            <button class="modal-close" onclick="closeVentureModal(event, true)">&times;</button>
+            <div class="modal-content">
+                <div class="modal-screenshot">
+                    <img id="modalScreenshot" src="" alt="">
+                </div>
+                <div class="modal-details">
+                    <h2 class="modal-title" id="modalTitle"></h2>
+                    <p class="modal-text" id="modalText"></p>
+                    <div class="modal-points" id="modalPoints"></div>
+                    <div class="modal-role" id="modalRole" style="display:none"></div>
+                    <a class="modal-link" id="modalLink" href="" target="_blank" rel="noopener noreferrer">
+                        Visit <span id="modalLinkName"></span> →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="spaceship">
         <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
             <!-- Main body -->
