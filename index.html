@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bram Labs - Making a Tiny Bump in the Universe</title>
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=4">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="js/spaceship.js" defer></script>
-    <script src="js/snake-nav.js" defer></script>
+    <link rel="stylesheet" href="css/styles.css?v=5">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script defer>
-        const ventureKeys = ['aiklar', 'skolemate', 'tonetone', 'dragonflux'];
+        // Scroll detection for nav background
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.site-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        const ventureKeys = ['skolemate', 'tonetone', 'aiklar', 'dragonflux'];
         let currentVentureKey = null;
 
         const ventureData = {
@@ -138,50 +146,51 @@
         </header>
 
         <main class="main-content">
-            <div class="ventures-grid">
-                <div class="venture-tile has-screenshot" onclick="openVentureModal('aiklar')">
-                    <div class="tile-screenshot">
-                        <img src="images/aiklar-screenshot.png" alt="AiKlar Screenshot">
-                    </div>
-                    <h3 class="tile-title">AiKlar</h3>
-                    <p class="tile-description">Human to AI interface multi-tenant platform</p>
-                    <div class="tile-arrow">→</div>
-                </div>
-
-                <div class="venture-tile has-screenshot" onclick="openVentureModal('skolemate')">
-                    <div class="tile-screenshot">
+            <h2 class="section-title">Our Ventures</h2>
+            <div class="ventures-list">
+                <article class="venture-card" onclick="openVentureModal('skolemate')">
+                    <div class="venture-card-image">
                         <img src="images/skolemate-screenshot.png" alt="SkoleMate Screenshot">
                     </div>
-                    <h3 class="tile-title">SkoleMate</h3>
-                    <p class="tile-description">School-wide AI platform</p>
-                    <div class="tile-arrow">→</div>
-                </div>
+                    <div class="venture-card-content">
+                        <h3 class="venture-card-title">SkoleMate</h3>
+                        <p class="venture-card-description">The entire school's AI assistant. A shared platform for teachers, students, and administrators built specifically for education.</p>
+                        <span class="venture-card-link">Learn more <span class="arrow">→</span></span>
+                    </div>
+                </article>
 
-                <div class="venture-tile has-screenshot" onclick="openVentureModal('tonetone')">
-                    <div class="tile-screenshot">
+                <article class="venture-card" onclick="openVentureModal('tonetone')">
+                    <div class="venture-card-image">
                         <img src="images/tonetone-screenshot.png" alt="ToneTone Screenshot">
                     </div>
-                    <h3 class="tile-title">ToneTone</h3>
-                    <p class="tile-description">Weekly content in your voice — powered by AI</p>
-                    <div class="tile-arrow">→</div>
-                </div>
+                    <div class="venture-card-content">
+                        <h3 class="venture-card-title">ToneTone</h3>
+                        <p class="venture-card-description">Weekly content in your voice — powered by AI. Content shows up ready to post, written like you on a good day.</p>
+                        <span class="venture-card-link">Learn more <span class="arrow">→</span></span>
+                    </div>
+                </article>
 
-                <div class="venture-tile has-screenshot" onclick="openVentureModal('dragonflux')">
-                    <div class="tile-screenshot">
+                <article class="venture-card" onclick="openVentureModal('aiklar')">
+                    <div class="venture-card-image">
+                        <img src="images/aiklar-screenshot.png" alt="AiKlar Screenshot">
+                    </div>
+                    <div class="venture-card-content">
+                        <h3 class="venture-card-title">AiKlar</h3>
+                        <p class="venture-card-description">Human to AI interface multi-tenant platform. AI solutions that elevate people in work and learning — built on Danish and EU infrastructure.</p>
+                        <span class="venture-card-link">Learn more <span class="arrow">→</span></span>
+                    </div>
+                </article>
+
+                <article class="venture-card" onclick="openVentureModal('dragonflux')">
+                    <div class="venture-card-image">
                         <img src="images/dragonflux-screenshot.png" alt="DragonFlux Studio Screenshot">
                     </div>
-                    <h3 class="tile-title">DragonFlux</h3>
-                    <p class="tile-description">All-in-one workspace for AI artists and prompt engineers</p>
-                    <div class="tile-arrow">→</div>
-                </div>
-
-                <div class="venture-tile coming-soon">
-                    <div class="empty-placeholder">...</div>
-                </div>
-
-                <div class="venture-tile coming-soon">
-                    <div class="empty-placeholder">...</div>
-                </div>
+                    <div class="venture-card-content">
+                        <h3 class="venture-card-title">DragonFlux</h3>
+                        <p class="venture-card-description">All-in-one workspace for AI artists and prompt engineers. Manage prompts, generate media, and iterate from one powerful desktop app.</p>
+                        <span class="venture-card-link">Learn more <span class="arrow">→</span></span>
+                    </div>
+                </article>
             </div>
         </main>
     </div>
@@ -207,22 +216,12 @@
         </div>
     </div>
 
-    <div id="spaceship">
-        <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-            <!-- Main body -->
-            <ellipse cx="20" cy="12" rx="18" ry="6" fill="#4a5568" opacity="0.8"/>
-            <!-- Cockpit -->
-            <ellipse cx="28" cy="12" rx="8" ry="4" fill="#78dbff" opacity="0.6"/>
-            <!-- Wings -->
-            <path d="M8 8 L2 4 L4 12 L2 20 L8 16 Z" fill="#6b7280" opacity="0.7"/>
-            <path d="M8 8 L2 4 L4 12 L2 20 L8 16 Z" fill="#6b7280" opacity="0.7" transform="scale(1, -1) translate(0, -24)"/>
-            <!-- Engine glow -->
-            <ellipse cx="5" cy="12" rx="3" ry="2" fill="#ff77c6" opacity="0.9"/>
-            <ellipse cx="3" cy="12" rx="2" ry="1" fill="#ffffff" opacity="0.6"/>
-            <!-- Detail lines -->
-            <line x1="12" y1="9" x2="25" y2="9" stroke="#78dbff" stroke-width="0.5" opacity="0.4"/>
-            <line x1="12" y1="15" x2="25" y2="15" stroke="#78dbff" stroke-width="0.5" opacity="0.4"/>
-        </svg>
-    </div>
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p class="footer-copyright">&copy; 2026 Bram Labs ApS. All rights reserved.</p>
+            <p class="footer-location">Copenhagen, Denmark</p>
+        </div>
+    </footer>
+
 </body>
 </html>
