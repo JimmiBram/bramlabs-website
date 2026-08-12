@@ -18,7 +18,7 @@
             }
         });
 
-        const ventureKeys = ['skolemate', 'tonetone', 'aiklar', 'doczoid'];
+        const ventureKeys = ['doczoid', 'skolemate', 'tonetone', 'ocm'];
         let currentVentureKey = null;
 
         const ventureData = {
@@ -35,20 +35,6 @@
                 founded: 'January 2026',
                 link: 'https://doczoid.io',
                 linkName: 'DocZoid.io',
-            },
-            aiklar: {
-                title: 'AiKlar',
-                screenshot: 'images/aiklar-screenshot.png',
-                text: 'AI solutions that elevate people in work and learning. AiKlar\'s goal is to deliver AI that doesn\'t replace humans — but gives them new opportunities, knowledge, and tools to succeed. Always on Danish or EU infrastructure and technology.',
-                points: [
-                    { type: 'gain', text: 'Human-first AI — designed to empower, not replace' },
-                    { type: 'gain', text: 'Multi-tenant platform connecting humans and AI seamlessly' },
-                    { type: 'gain', text: 'Built on Danish and EU infrastructure for data sovereignty' },
-                ],
-                role: 'Co-Founding, Funds, Architecture, Development, AI Zoo keeping, Product Development and much more.',
-                founded: 'March 2025',
-                link: 'https://aiklar.dk',
-                linkName: 'AiKlar.dk',
             },
             skolemate: {
                 title: 'SkoleMate',
@@ -73,6 +59,19 @@
                 founded: 'January 2026',
                 link: 'https://tonetone.ai',
                 linkName: 'ToneTone.ai',
+            },
+            ocm: {
+                title: 'OCM.digital',
+                screenshot: 'images/ocm-screenshot.png',
+                text: 'From "gad vide" to done. OCM.digital turns AI ideas into working products — building from concept to launch, hardening prototypes into production systems, and auditing AI-built code. Alongside the client work, OCM advises companies on where AI actually fits their roadmap, with honest advice, no lock-in, and solutions the client understands and can maintain themselves.',
+                points: [
+                    { type: 'gain', text: 'Idea to product — full development from concept to launch' },
+                    { type: 'gain', text: 'Prototype to production — architecture, security, and infrastructure' },
+                    { type: 'gain', text: 'Code audits and AI consulting for teams building with AI' },
+                ],
+                role: 'CTO — designing and building AI solutions, and teaching companies how to best work with AI.',
+                link: 'https://ocm.digital',
+                linkName: 'OCM.digital',
             }
         };
 
@@ -148,6 +147,17 @@
         <main class="main-content">
             <h2 class="section-title">Our Ventures</h2>
             <div class="ventures-list">
+                <article class="venture-card" onclick="openVentureModal('doczoid')">
+                    <div class="venture-card-image">
+                        <img src="images/doczoid-screenshot.png" alt="DocZoid Screenshot">
+                    </div>
+                    <div class="venture-card-content">
+                        <h3 class="venture-card-title">DocZoid</h3>
+                        <p class="venture-card-description">The only AI enabled tool that takes an idea from written document to diagram to presentation — with text and diagrams reused live, so everything is always up to date.</p>
+                        <span class="venture-card-link">Learn more <span class="arrow">→</span></span>
+                    </div>
+                </article>
+
                 <article class="venture-card" onclick="openVentureModal('skolemate')">
                     <div class="venture-card-image">
                         <img src="images/skolemate-screenshot.png" alt="SkoleMate Screenshot">
@@ -170,27 +180,17 @@
                     </div>
                 </article>
 
-                <article class="venture-card" onclick="openVentureModal('aiklar')">
+                <article class="venture-card" onclick="openVentureModal('ocm')">
                     <div class="venture-card-image">
-                        <img src="images/aiklar-screenshot.png" alt="AiKlar Screenshot">
+                        <img src="images/ocm-screenshot.png" alt="OCM.digital Screenshot">
                     </div>
                     <div class="venture-card-content">
-                        <h3 class="venture-card-title">AiKlar</h3>
-                        <p class="venture-card-description">Human to AI interface multi-tenant platform. AI solutions that elevate people in work and learning — built on Danish and EU infrastructure.</p>
+                        <h3 class="venture-card-title">OCM.digital</h3>
+                        <p class="venture-card-description">From idea to working AI product. Development, prototype-to-production, code audits, and AI consulting for companies figuring out where AI fits.</p>
                         <span class="venture-card-link">Learn more <span class="arrow">→</span></span>
                     </div>
                 </article>
 
-                <article class="venture-card" onclick="openVentureModal('doczoid')">
-                    <div class="venture-card-image">
-                        <img src="images/doczoid-screenshot.png" alt="DocZoid Screenshot">
-                    </div>
-                    <div class="venture-card-content">
-                        <h3 class="venture-card-title">DocZoid</h3>
-                        <p class="venture-card-description">The only AI enabled tool that takes an idea from written document to diagram to presentation — with text and diagrams reused live, so everything is always up to date.</p>
-                        <span class="venture-card-link">Learn more <span class="arrow">→</span></span>
-                    </div>
-                </article>
             </div>
         </main>
     </div>
