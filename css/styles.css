@@ -501,11 +501,45 @@ svg {
   }
 }
 
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  align-items: center;
+}
+
 .hero-inner {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   max-width: 900px;
+}
+
+.hero-logo {
+  display: flex;
+  justify-content: flex-end;
+  order: -1;
+}
+
+.hero-logo img {
+  width: clamp(96px, 28vw, 140px);
+  height: auto;
+}
+
+@media (min-width: 820px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 3rem;
+  }
+
+  .hero-logo {
+    order: 0;
+    justify-self: end;
+  }
+
+  .hero-logo img {
+    width: clamp(220px, 26vw, 320px);
+  }
 }
 
 .hero h1 {
