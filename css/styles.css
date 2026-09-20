@@ -501,11 +501,15 @@ svg {
   }
 }
 
+.hero .eyebrow {
+  margin-bottom: 1.5rem;
+}
+
 .hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
-  align-items: center;
+  align-items: start;
 }
 
 .hero-inner {
@@ -538,7 +542,7 @@ svg {
   }
 
   .hero-logo img {
-    width: clamp(220px, 26vw, 320px);
+    width: clamp(200px, 22vw, 260px);
   }
 }
 
