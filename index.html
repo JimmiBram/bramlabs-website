@@ -1,227 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bram Labs - Making a Tiny Bump in the Universe</title>
-    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-    <link rel="stylesheet" href="css/styles.css?v=5">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script defer>
-        // Scroll detection for nav background
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('.site-nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-
-        const ventureKeys = ['doczoid', 'skolemate', 'tonetone', 'ocm'];
-        let currentVentureKey = null;
-
-        const ventureData = {
-            doczoid: {
-                title: 'DocZoid',
-                screenshot: 'images/doczoid-screenshot.png',
-                text: 'The only AI enabled tool that takes an idea from written document to diagram to presentation — with text and diagrams reused live, so everything is always up to date. DocZoid isn\'t a note app with shapes. It\'s a full editor, a full diagramming canvas, and a full presentation tool — built on the same content. Made for teams and individuals that work with good ideas. It is the tool I as a CTO, innovator and entrepreneur have always been missing.',
-                points: [
-                    { type: 'gain', text: 'PortalSnips — reusable content that auto-updates everywhere it lives' },
-                    { type: 'gain', text: 'AI-powered text-to-diagram and diagram-to-text conversion' },
-                    { type: 'gain', text: 'Turn docs and diagrams into presentation-ready Zoids instantly' },
-                ],
-                role: 'Co-Founding, Funds, Architecture, Development, AI Zoo keeping, Product Development and much more.',
-                founded: 'January 2026',
-                link: 'https://doczoid.io',
-                linkName: 'DocZoid.io',
-            },
-            skolemate: {
-                title: 'SkoleMate',
-                screenshot: 'images/skolemate-screenshot.png',
-                text: 'The entire school\'s AI assistant. SkoleMate partners with schools that want to support individualized and engaging learning with AI — giving teachers, students, and administrators a shared platform built for education.',
-                points: [
-                    { type: 'gain', text: 'AI-powered tools tailored for the classroom — not repurposed consumer tech' },
-                    { type: 'gain', text: 'Supports individualized learning at scale across the entire school' },
-                    { type: 'gain', text: 'Built for teachers, students, and administrators alike' },
-                ],
-                role: 'Co-Founding, Funds, Architecture, Development, AI Zoo keeping, Product Development and much more.',
-                founded: 'March 2025',
-                link: 'https://skolemate.dk',
-                linkName: 'SkoleMate.dk',
-            },
-            tonetone: {
-                title: 'ToneTone',
-                screenshot: 'images/tonetone-screenshot.png',
-                text: 'ToneTone reads your website and creates weekly content in your voice — so you can focus on your actual work. Most people struggle to post consistently because content creation takes hours, and AI tools never quite sound like them. ToneTone solves that — content shows up ready to post, written like you on a good day, so you can focus on running your business instead of becoming a content creator.',
-                points: [],
-                role: 'Co-Founding, Architecture, Development, AI Zoo keeping, Product Development and much more.',
-                founded: 'January 2026',
-                link: 'https://tonetone.ai',
-                linkName: 'ToneTone.ai',
-            },
-            ocm: {
-                title: 'OCM.digital',
-                screenshot: 'images/ocm-screenshot.png',
-                text: 'From "gad vide" to done. OCM.digital turns AI ideas into working products — building from concept to launch, hardening prototypes into production systems, and auditing AI-built code. Alongside the client work, OCM advises companies on where AI actually fits their roadmap, with honest advice, no lock-in, and solutions the client understands and can maintain themselves.',
-                points: [
-                    { type: 'gain', text: 'Idea to product — full development from concept to launch' },
-                    { type: 'gain', text: 'Prototype to production — architecture, security, and infrastructure' },
-                    { type: 'gain', text: 'Code audits and AI consulting for teams building with AI' },
-                ],
-                role: 'CTO — designing and building AI solutions, and teaching companies how to best work with AI.',
-                link: 'https://ocm.digital',
-                linkName: 'OCM.digital',
-            }
-        };
-
-        function openVentureModal(key) {
-            const data = ventureData[key];
-            if (!data) return;
-            currentVentureKey = key;
-            document.getElementById('modalScreenshot').src = data.screenshot;
-            document.getElementById('modalScreenshot').alt = data.title + ' Screenshot';
-            document.getElementById('modalTitle').textContent = data.title;
-            document.getElementById('modalText').textContent = data.text;
-            const pointsEl = document.getElementById('modalPoints');
-            pointsEl.innerHTML = data.points.map(p =>
-                `<div class="modal-point ${p.type}"><span class="point-icon">${p.type === 'pain' ? '✕' : '✓'}</span> ${p.text}</div>`
-            ).join('');
-            const roleEl = document.getElementById('modalRole');
-            if (data.role) {
-                roleEl.style.display = '';
-                roleEl.innerHTML = '<strong>BramLabs Role:</strong> ' + data.role
-                    + (data.founded ? '<br><strong>Founded:</strong> ' + data.founded : '');
-            } else {
-                roleEl.style.display = 'none';
-            }
-            document.getElementById('modalLink').href = data.link;
-            document.getElementById('modalLinkName').textContent = data.linkName;
-            document.getElementById('ventureModal').classList.add('active');
-        }
-
-        function closeVentureModal(event, force) {
-            if (force || event.target === document.getElementById('ventureModal')) {
-                document.getElementById('ventureModal').classList.remove('active');
-            }
-        }
-
-        document.addEventListener('keydown', function(e) {
-            const modal = document.getElementById('ventureModal');
-            if (e.key === 'Escape') {
-                modal.classList.remove('active');
-                currentVentureKey = null;
-                return;
-            }
-            if (!modal.classList.contains('active') || !currentVentureKey) return;
-            const idx = ventureKeys.indexOf(currentVentureKey);
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                e.preventDefault();
-                openVentureModal(ventureKeys[(idx + 1) % ventureKeys.length]);
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                e.preventDefault();
-                openVentureModal(ventureKeys[(idx - 1 + ventureKeys.length) % ventureKeys.length]);
-            }
-        });
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BramLabs. A product studio built around good taste</title>
+  <meta name="description" content="BramLabs is a product studio in Vordingborg, Denmark. We invent products, build them with AI, and release them, sometimes with friends of the house who know a domain. What grows becomes something of its own. What does not is closed.">
+  <link rel="canonical" href="https://bramlabs.io/">
+  <meta property="og:title" content="BramLabs. A product studio built around good taste">
+  <meta property="og:description" content="BramLabs is a product studio in Vordingborg, Denmark. We invent products, build them with AI, and release them, sometimes with friends of the house who know a domain. What grows becomes something of its own. What does not is closed.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bramlabs.io/">
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=6">
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
     <div class="container">
-        <header class="header">
-            <div class="logo-container">
-                <a href="index.html"><img src="images/logo.png" alt="Bram Labs Logo" class="logo"></a>
-            </div>
-            <div class="header-text">
-                <h1 class="company-title">Bram Labs <span class="company-type">ApS</span></h1>
-                <p class="intro-text">
-                    Building prototypes that turn into real solutions and companies. What starts as experimental tech in our lab often ends up solving actual problems for real people. When a prototype proves its worth by making someone's work easier or more effective, it graduates from experiment to product.
-                </p>
-            </div>
-            <nav class="site-nav">
-                <a href="index.html" class="nav-link active">Ventures</a>
-                <a href="about.html" class="nav-link">About</a>
-                <a href="contact.html" class="nav-link">Contact</a>
-            </nav>
-        </header>
-
-        <main class="main-content">
-            <h2 class="section-title">Our Ventures</h2>
-            <div class="ventures-list">
-                <article class="venture-card" onclick="openVentureModal('doczoid')">
-                    <div class="venture-card-image">
-                        <img src="images/doczoid-screenshot.png" alt="DocZoid Screenshot">
-                    </div>
-                    <div class="venture-card-content">
-                        <h3 class="venture-card-title">DocZoid</h3>
-                        <p class="venture-card-description">The only AI enabled tool that takes an idea from written document to diagram to presentation — with text and diagrams reused live, so everything is always up to date.</p>
-                        <span class="venture-card-link">Learn more <span class="arrow">→</span></span>
-                    </div>
-                </article>
-
-                <article class="venture-card" onclick="openVentureModal('skolemate')">
-                    <div class="venture-card-image">
-                        <img src="images/skolemate-screenshot.png" alt="SkoleMate Screenshot">
-                    </div>
-                    <div class="venture-card-content">
-                        <h3 class="venture-card-title">SkoleMate</h3>
-                        <p class="venture-card-description">The entire school's AI assistant. A shared platform for teachers, students, and administrators built specifically for education.</p>
-                        <span class="venture-card-link">Learn more <span class="arrow">→</span></span>
-                    </div>
-                </article>
-
-                <article class="venture-card" onclick="openVentureModal('tonetone')">
-                    <div class="venture-card-image">
-                        <img src="images/tonetone-screenshot.png" alt="ToneTone Screenshot">
-                    </div>
-                    <div class="venture-card-content">
-                        <h3 class="venture-card-title">ToneTone</h3>
-                        <p class="venture-card-description">Weekly content in your voice — powered by AI. Content shows up ready to post, written like you on a good day.</p>
-                        <span class="venture-card-link">Learn more <span class="arrow">→</span></span>
-                    </div>
-                </article>
-
-                <article class="venture-card" onclick="openVentureModal('ocm')">
-                    <div class="venture-card-image">
-                        <img src="images/ocm-screenshot.png" alt="OCM.digital Screenshot">
-                    </div>
-                    <div class="venture-card-content">
-                        <h3 class="venture-card-title">OCM.digital</h3>
-                        <p class="venture-card-description">From idea to working AI product. Development, prototype-to-production, code audits, and AI consulting for companies figuring out where AI fits.</p>
-                        <span class="venture-card-link">Learn more <span class="arrow">→</span></span>
-                    </div>
-                </article>
-
-            </div>
-        </main>
-    </div>
-    
-    <!-- Venture Modal -->
-    <div class="venture-modal-overlay" id="ventureModal" onclick="closeVentureModal(event)">
-        <div class="venture-modal">
-            <button class="modal-close" onclick="closeVentureModal(event, true)">&times;</button>
-            <div class="modal-content">
-                <div class="modal-screenshot">
-                    <img id="modalScreenshot" src="" alt="">
-                </div>
-                <div class="modal-details">
-                    <h2 class="modal-title" id="modalTitle"></h2>
-                    <p class="modal-text" id="modalText"></p>
-                    <div class="modal-points" id="modalPoints"></div>
-                    <div class="modal-role" id="modalRole" style="display:none"></div>
-                    <a class="modal-link" id="modalLink" href="" target="_blank" rel="noopener noreferrer">
-                        Visit <span id="modalLinkName"></span> →
-                    </a>
-                </div>
-            </div>
+      <div class="header-row">
+        <a class="wordmark" href="index.html" aria-label="BramLabs home">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
+  <path class="mark-fill" d="M6.7 15h10.6l1.9 3.3c.5.9-.1 2.2-1.2 2.2H6.1c-1.1 0-1.7-1.3-1.2-2.2z"/>
+  <path class="mark-flask" d="M9 3h6M10 3v6.5L4.6 18.5a2 2 0 0 0 1.7 3h11.4a2 2 0 0 0 1.7-3L14 9.5V3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+          <span>BramLabs</span>
+        </a>
+        <nav class="main-nav" aria-label="Main">
+          <a href="index.html#products" aria-current="page">Products</a>
+          <a href="philosophy.html">Philosophy</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <a class="btn btn-primary btn-sm header-cta" href="contact.html">Get in touch</a>
+          <button class="icon-btn menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14"/></svg>
+          </button>
         </div>
+      </div>
     </div>
-
-    <footer class="site-footer">
-        <div class="footer-content">
-            <p class="footer-copyright">&copy; 2026 Bram Labs ApS. All rights reserved.</p>
-            <p class="footer-location">Copenhagen, Denmark</p>
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Main, mobile" hidden>
+      <div class="container">
+        <ul>
+          <li><a href="index.html#products" aria-current="page">Products</a></li>
+          <li><a href="philosophy.html">Philosophy</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="contact.html">Get in touch</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <p class="eyebrow">Product studio &middot; Vordingborg, Denmark</p>
+          <h1 class="t-display">Code got cheap. <em>Good taste</em> didn&rsquo;t.</h1>
+          <p class="lede">BramLabs is a product studio. We invent products and build them with AI, now and then with good friends of the house who know a domain better than we do. We experiment, we release, and we watch what happens. What grows is shed off to become something big on its own. What does not is closed down.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#products">See the products</a>
+            <a class="btn btn-secondary" href="philosophy.html">Read the philosophy</a>
+          </div>
+          <div class="hero-stamp mono">
+            <span>2 products in market</span>
+            <span>Building with AI since 2025</span>
+          </div>
         </div>
-    </footer>
+      </div>
+    </section>
 
+    <section class="section-tight">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow eyebrow-accent">What a person still supplies</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="pillar">
+            <span class="num">01</span>
+            <h3>Domain knowledge</h3>
+            <p>We build where someone in the house has done the work and knows what the users already tried and why it did not stick. Sometimes that is us. Sometimes it is a good friend of the house who owns the domain.</p>
+          </div>
+          <div class="pillar">
+            <span class="num">02</span>
+            <h3>Taste</h3>
+            <p>A model can add forty things by Friday. Knowing which three belong, and what the product is not, is most of the work. Taste is saying no with a reason.</p>
+          </div>
+          <div class="pillar">
+            <span class="num">03</span>
+            <h3>Experience</h3>
+            <p>Products are run, not just launched. Pricing, onboarding, support, security, the page at 03:00. We have carried those before and design for them from the first commit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="products">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Products</p>
+          <h2 class="t-h2">What we make</h2>
+          <p class="lede">Each product is its own company with its own users and its own economics. It starts as an experiment, goes to market early, and either grows into something that leaves the studio or is closed down. The studio is the shared way of building behind them.</p>
+        </div>
+        <div class="grid grid-products">
+          <article class="product">
+            <div class="frame">
+              <img src="images/doczoid-screenshot.png" alt="DocZoid: a document, a diagram and a slide generated from one repository" loading="lazy">
+              <span class="stamp"><b>doczoid.io</b> &middot; since 2026-01</span>
+            </div>
+            <div class="product-head">
+              <h3>DocZoid</h3>
+            </div>
+            <p>Documentation, diagrams, and presentations from one living source. Connect a repository and DocZoid generates the architecture and data-lineage diagrams, keeps them current on every push, and carries them into every doc and slide that embeds them.</p>
+            <a class="arrow-link" href="https://doczoid.io" target="_blank" rel="noopener">Visit doczoid.io</a>
+          </article>
+          <article class="product">
+            <div class="frame">
+              <img src="images/tonetone-screenshot.png" alt="ToneTone: weekly content written in the customer's own voice" loading="lazy">
+              <span class="stamp"><b>tonetone.ai</b> &middot; since 2026-01</span>
+            </div>
+            <div class="product-head">
+              <h3>ToneTone</h3>
+            </div>
+            <p>Keeps a small business&rsquo;s Instagram alive for the price of a coffee. ToneTone writes the captions and makes the images in the owner&rsquo;s tone of voice and brand style, week after week, for &euro;6 a month. Consistency beats quality, and this is the consistency.</p>
+            <a class="arrow-link" href="https://tonetone.ai" target="_blank" rel="noopener">Visit tonetone.ai</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="philosophy">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Philosophy</p>
+          <h2 class="t-h2">AI can build everything. That is not the same as knowing what to build.</h2>
+        </div>
+        <div class="prose">
+          <p>For most of software&rsquo;s history the constraint was building. Teams were sized by how much code had to be written, and roadmaps were sorted by what was cheap to make. That constraint is gone. A model with a terminal writes, tests, and ships most of what a product needs, and the cost of a feature is falling toward the cost of describing it precisely.</p>
+          <p>When building is close to free, a product is decided by what you ask for and by what you accept. Knowing what to ask for is domain knowledge. Knowing what to accept is taste. Knowing what happens after launch, when a customer churns or an invoice fails or a teacher opens it in front of thirty students, is experience. Those three are what a model does not have, and they are what BramLabs is built around.</p>
+        </div>
+        <div class="split" style="margin-top:2.5rem">
+          <div class="split-col">
+            <p class="eyebrow">The model does</p>
+            <ul>
+              <li>Writes the code</li>
+              <li>Writes the tests</li>
+              <li>Drafts the copy</li>
+              <li>Wires the integrations</li>
+              <li>Reads the logs</li>
+              <li>Ships the release</li>
+            </ul>
+          </div>
+          <div class="split-col decides">
+            <p class="eyebrow">A person decides</p>
+            <ul>
+              <li>Which problem is worth a product</li>
+              <li>What the product is not</li>
+              <li>When it is good enough</li>
+              <li>What it costs and what it charges</li>
+              <li>What to do when it breaks</li>
+              <li>Whether to keep going</li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top:1.5rem"><a class="arrow-link" href="philosophy.html">Read the full philosophy</a></p>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">How we work</p>
+          <h2 class="t-h2">Small by design</h2>
+        </div>
+        <ol class="steps">
+          <li>
+            <span class="num">01</span>
+            <h3>A product starts around taste</h3>
+            <p>Every product here begins with someone who knows the domain and can tell good from merely finished. AI does the building. The team stays small while the product finds its users. Traction earns the organisation around it, not the other way round.</p>
+          </li>
+          <li>
+            <span class="num">02</span>
+            <h3>Whole system first, then depth</h3>
+            <p>We build end to end early and thin, so the real problems show up in week one instead of month six. The target is the smallest system that proves value and leaves a clear path to grow.</p>
+          </li>
+          <li>
+            <span class="num">03</span>
+            <h3>Real users, early</h3>
+            <p>A product is an argument, and users are the only ones who get to say whether it holds. We ship to a first group fast and let what they actually do set the roadmap.</p>
+          </li>
+          <li>
+            <span class="num">04</span>
+            <h3>AI is the workshop, not the pitch</h3>
+            <p>Every product here is built with AI, and most use it inside. Neither is the point. The point is the problem it solves, and that is how we describe each one.</p>
+          </li>
+          <li>
+            <span class="num">05</span>
+            <h3>It leaves, or it ends</h3>
+            <p>A product that grows is shed off from the studio to become something big on its own, with its own company and its own people. A product that stops growing is closed down, cleanly, and what it taught us goes into the next one. The studio keeps neither out of sentiment.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="band">
+      <div class="container">
+        <div class="band-inner">
+          <h2 class="t-h3">Find one of our products interesting? We would like to hear from you.</h2>
+          <a class="btn btn-primary" href="contact.html">Talk to us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="wordmark" href="index.html" aria-label="BramLabs home">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
+  <path class="mark-fill" d="M6.7 15h10.6l1.9 3.3c.5.9-.1 2.2-1.2 2.2H6.1c-1.1 0-1.7-1.3-1.2-2.2z"/>
+  <path class="mark-flask" d="M9 3h6M10 3v6.5L4.6 18.5a2 2 0 0 0 1.7 3h11.4a2 2 0 0 0 1.7-3L14 9.5V3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+            <span>BramLabs</span>
+          </a>
+          <p>A product studio in Vordingborg, Denmark. We invent products, release them, and let what grows become something of its own.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Products</h4>
+          <ul>
+            <li><a href="https://doczoid.io" target="_blank" rel="noopener">DocZoid</a></li>
+            <li><a href="https://tonetone.ai" target="_blank" rel="noopener">ToneTone</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="philosophy.html">Philosophy</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Bram Labs ApS &middot; All rights reserved</span>
+        <span>Vordingborg, Denmark</span>
+      </div>
+    </div>
+  </footer>
+  <script src="js/site.js?v=6"></script>
 </body>
 </html>
