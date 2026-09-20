@@ -542,7 +542,7 @@ svg {
   }
 
   .hero-logo img {
-    width: clamp(200px, 22vw, 260px);
+    width: clamp(240px, 28vw, 340px);
   }
 }
 
