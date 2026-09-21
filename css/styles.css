@@ -1,29 +1,33 @@
 /* ---------------------------------------------------------------------------
    BramLabs
-   Same system as the DocZoid brand guide (doczoid.io/brand): warm graphite
-   and paper, monochrome for everything structural, three type faces, grid
-   not cards, no gradients, no shadows.
+   Warm off-white page, white boxes with soft corners, black type, three
+   type faces, no gradients, no shadows.
 
    One accent, and it is semantic. On this site colour marks good taste: the
    part of the work a person decides. Everything built or structural stays
-   monochrome. DocZoid's accent is forest green; BramLabs uses indigo.
+   monochrome. The accent is a warm yellow: the pure yellow is a fill (marks,
+   highlights, washes), the dark amber is what yellow becomes when it has to
+   be read as text on the page.
 --------------------------------------------------------------------------- */
 
 :root {
-  --paper: #f4f3ef;
-  --panel: #fbfaf7;
-  --panel-2: #eceae4;
-  --ink: #1a1814;
-  --ink-2: #4c483f;
-  --ink-3: #8b857a;
-  --rule: #e3e0d8;
+  --paper: #f0efec;
+  --panel: #ffffff;
+  --panel-2: #e7e3d8;
+  --ink: #181816;
+  --ink-2: #4a4843;
+  --ink-3: #8b8b8b;
+  --rule: #e4e1da;
   --rule-strong: #c9c5ba;
-  --on-ink: #f4f3ef;
+  --on-ink: #ffffff;
 
-  --accent: #34398a;
-  --accent-bright: #4a51b8;
-  --accent-wash: #e7e8f5;
-  --on-accent: #ffffff;
+  --accent: #ffcc00;
+  --accent-bright: #ffd633;
+  --accent-ink: #8a6400;
+  --accent-wash: #fff4c2;
+  --on-accent: #181816;
+
+  --radius-box: 1.25rem;
 
   --font-display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
   --font-sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
@@ -99,12 +103,12 @@ svg {
 }
 
 ::selection {
-  background: var(--panel-2);
+  background: var(--accent-wash);
   color: var(--ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent-bright);
+  outline: 2px solid var(--accent-ink);
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -167,7 +171,7 @@ svg {
 }
 
 .eyebrow-accent {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .mono {
@@ -236,8 +240,14 @@ svg {
   color: var(--ink);
 }
 
-/* Buttons: ink with on-ink text. The accent never competes with the CTA. */
+/* Buttons: ink with on-ink text, or white with a hairline. On hover the
+   button fills with yellow from the bottom, like the flask filling: the
+   fill is a pseudo-element taller than the button with a curved top edge,
+   so the meniscus shows while it rises and is clipped once it is full. */
 .btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   height: 2.75rem;
@@ -247,7 +257,33 @@ svg {
   font-size: 0.9375rem;
   font-weight: 500;
   white-space: nowrap;
-  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+  /* The text changes colour a beat late, when the fill has reached it. */
+  transition: color 0.2s ease-out 0.14s, border-color 0.25s ease-out;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -10%;
+  right: -10%;
+  bottom: 0;
+  height: 150%;
+  background: var(--accent);
+  border-radius: 50% 50% 0 0 / 40% 40% 0 0;
+  transform: translateY(100%);
+  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.btn:hover::before,
+.btn:focus-visible::before {
+  transform: translateY(0);
+  transition-duration: 0.7s;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  color: var(--on-accent);
 }
 
 .btn-primary {
@@ -255,17 +291,15 @@ svg {
   color: var(--on-ink);
 }
 
-.btn-primary:hover {
-  background: var(--ink-2);
-}
-
 .btn-secondary {
-  border: 1px solid var(--rule-strong);
+  background: var(--panel);
+  border: 1px solid var(--rule);
   color: var(--ink);
 }
 
-.btn-secondary:hover {
-  border-color: var(--ink);
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  border-color: var(--accent);
 }
 
 .btn-sm {
@@ -308,16 +342,15 @@ svg {
   margin: 0;
 }
 
-/* Grid, not cards. A hairline between cells. */
+/* White boxes on the warm page. */
 .grid {
   display: grid;
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
+  gap: 0.75rem;
 }
 
 .grid > * {
-  background: var(--paper);
+  background: var(--panel);
+  border-radius: var(--radius-box);
   padding: 1.5rem;
   min-width: 0;
 }
@@ -401,9 +434,21 @@ svg {
 }
 
 .main-nav a {
+  position: relative;
   font-size: 0.9375rem;
   color: var(--ink-2);
   transition: color 0.15s;
+}
+
+.main-nav a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.15em;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
 }
 
 .main-nav a:hover,
@@ -432,7 +477,7 @@ svg {
 }
 
 .icon-btn:hover {
-  background: var(--panel-2);
+  background: var(--panel);
   color: var(--ink);
 }
 
@@ -525,9 +570,31 @@ svg {
   order: -1;
 }
 
-.hero-logo img {
+.hero-logo .flask {
+  position: relative;
   width: clamp(96px, 28vw, 140px);
+}
+
+.hero-logo img {
+  width: 100%;
   height: auto;
+}
+
+/* Liquid layers sit on the base logo and stay hidden until the script has
+   the mask; without JS the plain logo is all there is. */
+.flask-liquid,
+.flask-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  pointer-events: none;
+}
+
+.flask-live .flask-liquid,
+.flask-live .flask-lines {
+  display: block;
 }
 
 @media (min-width: 820px) {
@@ -541,18 +608,37 @@ svg {
     justify-self: end;
   }
 
-  .hero-logo img {
+  .hero-logo .flask {
     width: clamp(240px, 28vw, 340px);
   }
 }
 
 .hero h1 {
   max-width: 16ch;
+  line-height: 1.16;
 }
 
+/* Highlighter: a band behind the letters, not the full line box, so it
+   never touches the descenders of the line above. */
 .hero h1 em {
+  position: relative;
+  isolation: isolate;
   font-style: normal;
-  color: var(--accent);
+  color: var(--on-accent);
+  padding: 0 0.12em;
+  margin: 0 -0.12em;
+}
+
+.hero h1 em::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 0.07em;
+  height: 1.06em;
+  background: var(--accent);
+  border-radius: 0.16em;
 }
 
 .hero-actions {
@@ -582,7 +668,7 @@ svg {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .pillar h3 {
@@ -606,9 +692,8 @@ svg {
 
 .frame {
   position: relative;
-  background: var(--panel);
-  border: 1px solid var(--rule);
-  border-radius: 10px;
+  background: var(--paper);
+  border-radius: calc(var(--radius-box) - 0.5rem);
   overflow: hidden;
 }
 
@@ -665,9 +750,7 @@ svg {
 .split {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
+  gap: 0.75rem;
 }
 
 @media (min-width: 640px) {
@@ -677,7 +760,8 @@ svg {
 }
 
 .split-col {
-  background: var(--paper);
+  background: var(--panel);
+  border-radius: var(--radius-box);
   padding: 1.5rem;
 }
 
@@ -690,7 +774,7 @@ svg {
 }
 
 .split-col.decides .eyebrow {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .split-col ul {
@@ -707,7 +791,7 @@ svg {
 }
 
 .split-col.decides li {
-  border-top-color: color-mix(in srgb, var(--accent) 22%, transparent);
+  border-top-color: color-mix(in srgb, var(--accent) 45%, transparent);
 }
 
 .split-col li:first-child {
@@ -728,28 +812,32 @@ svg {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .steps li {
   display: grid;
   grid-template-columns: 3rem 1fr;
   gap: 1rem;
-  padding: 1.75rem 0;
-  border-bottom: 1px solid var(--rule);
+  padding: 1.5rem;
+  background: var(--panel);
+  border-radius: var(--radius-box);
 }
 
 @media (min-width: 640px) {
   .steps li {
     grid-template-columns: 5rem 1fr 1.6fr;
     gap: 2rem;
+    padding: 2rem;
   }
 }
 
 .steps .num {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
-  color: var(--ink-3);
+  color: var(--accent-ink);
   padding-top: 0.35rem;
 }
 
@@ -772,16 +860,22 @@ svg {
    Closing band
 --------------------------------------------------------------------------- */
 .band {
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  background: var(--panel);
+  padding-block: 0 var(--space-section);
 }
 
 .band-inner {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  padding-block: var(--space-tight);
+  padding: var(--space-tight) 1.5rem;
+  background: var(--panel);
+  border-radius: var(--radius-box);
+}
+
+@media (min-width: 640px) {
+  .band-inner {
+    padding-inline: 2.5rem;
+  }
 }
 
 .band h2 {
@@ -870,7 +964,7 @@ svg {
 .pull {
   margin: 1.75rem 0;
   padding-left: 1.25rem;
-  border-left: 2px solid var(--accent);
+  border-left: 3px solid var(--accent);
   font-family: var(--font-display);
   font-size: 1.5rem;
   line-height: 1.25;
@@ -896,7 +990,7 @@ svg {
 .dims .num {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--accent);
+  color: var(--accent-ink);
   padding-top: 0.3rem;
 }
 
@@ -930,8 +1024,7 @@ svg {
 
 .portrait {
   position: relative;
-  border: 1px solid var(--rule);
-  border-radius: 10px;
+  border-radius: var(--radius-box);
   overflow: hidden;
   background: var(--panel);
   max-width: 200px;
@@ -1000,9 +1093,7 @@ svg {
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
+  gap: 0.75rem;
 }
 
 @media (min-width: 640px) {
@@ -1015,7 +1106,8 @@ svg {
 }
 
 .contact-cell {
-  background: var(--paper);
+  background: var(--panel);
+  border-radius: var(--radius-box);
   padding: 1.75rem;
   display: flex;
   flex-direction: column;
@@ -1043,6 +1135,7 @@ svg {
   gap: 0;
   position: relative;
   min-height: 16rem;
+  overflow: hidden;
 }
 
 .contact-map iframe {
@@ -1060,9 +1153,10 @@ svg {
   bottom: 0.75rem;
   font-size: 0.75rem;
   padding: 0.3rem 0.55rem;
-  background: var(--paper);
+  background: var(--panel);
   color: var(--ink-2);
   border: 1px solid var(--rule);
+  border-radius: 6px;
   text-decoration: none;
 }
 
@@ -1146,7 +1240,7 @@ svg {
 }
 
 /* ---------------------------------------------------------------------------
-   Motion: hover colour only. Nothing animates.
+   Motion: hover colour, the button fill and the flask liquid. Nothing else.
 --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -1173,4 +1267,196 @@ svg {
 
 .grid-products .product p {
   font-size: 0.9375rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Brand guide
+--------------------------------------------------------------------------- */
+.brand-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.brand-tile > img {
+  width: min(180px, 40%);
+  height: auto;
+  align-self: center;
+}
+
+.brand-small-mark {
+  display: grid;
+  place-items: center;
+  align-self: center;
+  width: min(180px, 40%);
+  aspect-ratio: 693 / 902;
+}
+
+.brand-small-mark svg {
+  width: 72px;
+  height: 72px;
+}
+
+.brand-small-mark .mark-flask {
+  stroke: var(--ink);
+}
+
+.brand-small-mark .mark-fill,
+.brand-wordmark .mark-fill {
+  fill: var(--accent);
+}
+
+.brand-tile-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.brand-tile-text p {
+  color: var(--ink-2);
+}
+
+.brand-tile-text .arrow-link {
+  margin-top: 0.25rem;
+}
+
+.brand-surfaces {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .brand-surfaces {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.brand-surface {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 1rem;
+  border-radius: var(--radius-box);
+}
+
+.brand-surface svg {
+  width: 48px;
+  height: 48px;
+}
+
+.brand-rules {
+  margin-top: 2.5rem;
+}
+
+.brand-rules li {
+  grid-template-columns: 3.25rem 1fr;
+}
+
+.brand-wordmark-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.brand-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.05rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.6rem;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.brand-wordmark svg {
+  width: 44px;
+  height: 44px;
+}
+
+.brand-wordmark .mark-flask {
+  stroke: currentColor;
+}
+
+.brand-sub {
+  margin: 2rem 0 1rem;
+}
+
+.brand-sub:first-of-type {
+  margin-top: 0;
+}
+
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .swatches {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: var(--panel);
+  border-radius: var(--radius-box);
+  padding: 1rem;
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+}
+
+.swatch b {
+  margin-top: 0.5rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.swatch-chip {
+  display: block;
+  height: 4.5rem;
+  border-radius: calc(var(--radius-box) - 0.5rem);
+}
+
+.specimen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.specimen p {
+  color: var(--ink-2);
+  font-size: 1rem;
+}
+
+.specimen .specimen-sample {
+  min-height: 5.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+}
+
+.brand-facts {
+  margin-top: 2.5rem;
+}
+
+.brand-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--ink-2);
+}
+
+.brand-list li + li {
+  margin-top: 0.6rem;
 }
