@@ -550,24 +550,33 @@ svg {
   margin-bottom: 1.5rem;
 }
 
+/* Narrow screens: the text column dissolves into the grid so the flask can
+   sit beside the headline, with the rest of the copy running full width. */
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.5rem 1rem;
   align-items: start;
 }
 
 .hero-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  max-width: 900px;
+  display: contents;
+}
+
+.hero-inner > * {
+  grid-column: 1 / -1;
+}
+
+.hero-inner > h1 {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
 }
 
 .hero-logo {
   display: flex;
-  justify-content: flex-end;
-  order: -1;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .hero-logo .flask {
@@ -603,8 +612,18 @@ svg {
     gap: 3rem;
   }
 
+  .hero-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 900px;
+  }
+
+  .hero-inner > h1 {
+    align-self: auto;
+  }
+
   .hero-logo {
-    order: 0;
     justify-self: end;
   }
 
